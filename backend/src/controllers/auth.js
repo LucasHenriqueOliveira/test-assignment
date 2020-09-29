@@ -79,11 +79,15 @@ exports.signup = [
  * @returns {Object}
  */
 exports.login = [
+	
+	// Validate fields.
 	body("email").isLength({ min: 1 }).trim().withMessage("Email must be specified.")
 		.isEmail().withMessage("Email must be a valid email address."),
 	body("password").isLength({ min: 1 }).trim().withMessage("Password must be specified."),
-	sanitizeBody("email").escape(),
-	sanitizeBody("password").escape(),
+	
+	// Sanitize fields.
+	body("email").escape(),
+	body("password").escape(),
 
 	(req, res) => {
 		try {
