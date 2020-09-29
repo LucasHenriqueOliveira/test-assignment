@@ -60,30 +60,50 @@ export default function Login() {
         // send to api /login
         await api.post('login', { email, password })
             .then(response => {
-                localStorage.setItem('authToken', response.data.authToken);
-                history.push('/main');
-            })
-            .catch(function (err) {
-                let message = '';
-                if (err.response) {
-                    // Request made and server responded
-                    console.log(err.response.data);
-                    console.log(err.response.status);
-                    console.log(err.response.headers);
-                    message = err.response.data.hasOwnProperty("error");
-                } else if (err.request) {
-                    // The request was made but no response was received
-                    console.log(err.request);
-                    message = 'API request error!';
-                }
 
-                enqueueSnackbar(message, { 
-                    variant: 'error',
+                // success message 
+                enqueueSnackbar(response.data.message, { 
+                    variant: 'success',
                     anchorOrigin: {
                         vertical: 'top',
                         horizontal: 'center',
                     },
                 });
+
+                localStorage.setItem('token', response.data.data.authToken);
+                localStorage.setItem('email', response.data.data.email);
+                localStorage.setItem('_id', response.data.data._id);
+                history.push('/users');
+            })
+            .catch(function (err) {
+                if (err.response) {
+                    // Request made and server responded
+                    console.log(err.response.data);
+                    console.log(err.response.status);
+                    console.log(err.response.headers);
+
+                    // error message about api
+                    enqueueSnackbar(err.response.data.message, { 
+                        variant: 'error',
+                        anchorOrigin: {
+                            vertical: 'top',
+                            horizontal: 'center',
+                        },
+                    });
+                    
+                } else if (err.request) {
+                    // The request was made but no response was received
+                    console.log(err.request);
+
+                    // error message not connect api
+                    enqueueSnackbar('API request error!', { 
+                        variant: 'error',
+                        anchorOrigin: {
+                            vertical: 'top',
+                            horizontal: 'center',
+                        },
+                    });
+                }
             });
     }
 
