@@ -13,7 +13,7 @@ function App() {
 				<Switch>
 					<Route path='/login' exact={true} component={Login} />
 					<Route path='/user' exact={true} component={User} />
-					<PrivateRoute path='/main' exact={true} component={Admin} />
+					<PrivateRoute path='/users' exact={true} component={Admin} />
 					<Redirect exact from="/" to="/user"/> 
 				</Switch>
 			</SnackbarProvider>
