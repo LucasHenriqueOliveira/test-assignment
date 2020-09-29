@@ -71,7 +71,7 @@ export default function Users() {
         setLoading(true);
 
         // get to users in api /users
-        api.get('users', { headers: {'Authorization' : "Bearer " + token } })
+        api.get('user', { headers: {'Authorization' : "Bearer " + token } })
             .then(response => {
                 setLoading(false);
                 setUsers(response.data);
