@@ -6,6 +6,6 @@ export default function Admin() {
     const { enqueueSnackbar } = useSnackbar();
 
     return (
-        <div></div>
+        <div>main</div>
     );
 }

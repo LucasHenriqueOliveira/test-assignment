@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router';
+import { Switch, Route, Redirect } from 'react-router';
 import Login from './pages/Login';
 import User from './pages/User';
 import Admin from './pages/Admin';
@@ -11,9 +11,10 @@ function App() {
 		<div>
 			<SnackbarProvider maxSnack={3}>
 				<Switch>
-					<Route path='/login' component={Login} />
-					<Route path='/user' component={User} />
-					<PrivateRoute path='*' component={Admin} />
+					<Route path='/login' exact={true} component={Login} />
+					<Route path='/user' exact={true} component={User} />
+					<PrivateRoute path='/main' exact={true} component={Admin} />
+					<Redirect exact from="/" to="/user"/> 
 				</Switch>
 			</SnackbarProvider>
 		</div>
