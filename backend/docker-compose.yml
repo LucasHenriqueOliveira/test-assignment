@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+
+  linqpal-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: "unless-stopped"
+    container_name: "linqpal-backend"
+    external_links:
+    - linqpal-mongo:mongo
+    ports:
+    - 3004:3004
+    env_file:
+    - .env
+    networks:
+    - linqpal-backend-network
+    - all_containers_databases_portal-databases-network
+
+
+networks:
+  all_containers_databases_portal-databases-network:
+    external: true
+  linqpal-backend-network:
+    driver: bridge
