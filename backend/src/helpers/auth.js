@@ -17,7 +17,7 @@ exports.hashPassword = function (password) {
 	 * @param {string} password 
 	 * @returns {Boolean} return True or False
 	 */
-exports.comparePassword = function (hashPassword, password) {
+exports.comparePassword = function (password, hashPassword) {
 	return bcrypt.compareSync(password, hashPassword);
 }
 	
