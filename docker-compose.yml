@@ -1,0 +1,41 @@
+version: "3.7"
+
+services:
+
+  linqpal-mongodb:
+    restart: "unless-stopped"
+    build:
+      context: ./infra
+      dockerfile: Dockerfile
+    container_name: "linqpal-mongodb"
+    volumes:
+      - linqpal-mongo-data:/data/db
+    ports:
+      - 27117:27017
+    env_file:
+      - ./infra/mongo.env
+
+  linqpal-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: "unless-stopped"
+    container_name: "linqpal-backend"
+    external_links:
+    - linqpal-mongo:mongo
+    ports:
+    - 3004:3004
+    env_file:
+    - ./backend/.env
+
+  linqpal-app:
+    container_name: linqpal-app
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    external_links:
+        - linqpal-backend:linqpal-backend
+    ports:
+      - 8080:80
+      - 44443:443
+
