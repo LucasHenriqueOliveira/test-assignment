@@ -39,3 +39,5 @@ services:
       - 8080:80
       - 44443:443
 
+volumes:
+  linqpal-mongo-data: {}
