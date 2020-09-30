@@ -64,7 +64,7 @@ export default function User() {
                 event.target.reset();
 
                 // message success
-                enqueueSnackbar('User saved successfully', { 
+                enqueueSnackbar(response.data.message, { 
                     variant: 'success',
                     anchorOrigin: {
                         vertical: 'top',
@@ -73,27 +73,33 @@ export default function User() {
                 });
             })
             .catch(function (err) {
-                let message = '';
                 if (err.response) {
                     // Request made and server responded
                     console.log(err.response.data);
                     console.log(err.response.status);
                     console.log(err.response.headers);
-                    message = err.response.data.hasOwnProperty("error");
+
+                    // error message about api
+                    enqueueSnackbar(err.response.data.message, { 
+                        variant: 'error',
+                        anchorOrigin: {
+                            vertical: 'top',
+                            horizontal: 'center',
+                        },
+                    });
                 } else if (err.request) {
                     // The request was made but no response was received
                     console.log(err.request);
-                    message = 'API request error!';
-                }
 
-                // message error
-                enqueueSnackbar(message, { 
-                    variant: 'error',
-                    anchorOrigin: {
-                        vertical: 'top',
-                        horizontal: 'center',
-                    },
-                });
+                    // message error
+                    enqueueSnackbar('API request error!', { 
+                        variant: 'error',
+                        anchorOrigin: {
+                            vertical: 'top',
+                            horizontal: 'center',
+                        },
+                    });
+                }
             });
     }
 

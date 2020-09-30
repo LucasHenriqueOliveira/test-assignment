@@ -71,37 +71,42 @@ export default function Users() {
         setLoading(true);
 
         // get to users in api /users
-        api.get('user', { headers: {'Authorization' : "Bearer " + token } })
+        api.get('user', { headers: {'x-access-token' : token } })
             .then(response => {
                 setLoading(false);
-                setUsers(response.data);
+                setUsers(response.data.data);
             })
             .catch(function (err) {
-                let message = '';
                 if (err.response) {
                     // Request made and server responded
                     console.log(err.response.data);
                     console.log(err.response.status);
                     console.log(err.response.headers);
-                    message = err.response.data.hasOwnProperty("error");
+
+                    enqueueSnackbar(err.response.data.message, { 
+                        variant: 'error',
+                        anchorOrigin: {
+                            vertical: 'top',
+                            horizontal: 'center',
+                        },
+                    });
                 } else if (err.request) {
                     // The request was made but no response was received
                     console.log(err.request);
-                    message = 'API request error!';
+
+                    // message error
+                    enqueueSnackbar('API request error!', { 
+                        variant: 'error',
+                        anchorOrigin: {
+                            vertical: 'top',
+                            horizontal: 'center',
+                        },
+                    });
                 }
 
                 setLoading(false);
-
-                // message error
-                enqueueSnackbar(message, { 
-                    variant: 'error',
-                    anchorOrigin: {
-                        vertical: 'top',
-                        horizontal: 'center',
-                    },
-                });
             });
-	}, [setUsers]);
+	}, [setUsers, token, enqueueSnackbar]);
 
     return (
         <div className={classes.root}>
