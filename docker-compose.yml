@@ -22,7 +22,7 @@ services:
     restart: "unless-stopped"
     container_name: "linqpal-backend"
     external_links:
-    - linqpal-mongo:mongo
+    - linqpal-mongodb:mongo
     ports:
     - 3004:3004
     env_file:
