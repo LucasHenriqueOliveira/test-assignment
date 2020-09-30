@@ -10,6 +10,6 @@ routes.post('/signup', AuthController.signup);
 
 // users endpoints
 routes.post('/user', UserController.create);
-routes.get('/user', AuthMiddleware.verifyToken, UserController.index);
+routes.get('/user', AuthMiddleware.verifyToken, UserController.list);
 
 module.exports = routes;
