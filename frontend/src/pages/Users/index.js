@@ -7,6 +7,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid/Grid";
 import api from '../../services/api';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'; 
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -18,6 +19,23 @@ const useStyles = makeStyles(theme => ({
         color: '#fff',
     },
 }));
+
+const getMuiTheme = createMuiTheme({
+    overrides: {
+        MUIDataTableBodyRow: {
+            root: {
+                '&:nth-child(odd)': { 
+                    backgroundColor: '#e2e2e2'
+                }
+            }
+        },
+        MUIDataTableHeadCell: {
+            root: {
+                fontWeight: '700'
+            }
+        }
+    }
+});
 
 export default function Users() {
     const classes = useStyles();
@@ -111,12 +129,14 @@ export default function Users() {
     return (
         <div className={classes.root}>
             <Grid item xs={12}>
-                <MUIDataTable
-                    title={"Users"}
-                    data={users}
-                    columns={columns}
-                    options={options}
-                />
+                <MuiThemeProvider theme={getMuiTheme}>
+                    <MUIDataTable
+                        title={"Users"}
+                        data={users}
+                        columns={columns}
+                        options={options}
+                    />
+                </MuiThemeProvider>
             </Grid>
             
             <Backdrop className={classes.backdrop} open={loading}>
