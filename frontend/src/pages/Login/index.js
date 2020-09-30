@@ -11,6 +11,14 @@ import api from '../../services/api';
 import Logo from '../../assets/logo.jpg';
 import Link from '@material-ui/core/Link';
 import { useSnackbar } from 'notistack';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import InputLabel from '@material-ui/core/InputLabel';
+import clsx from 'clsx';
+import FormControl from '@material-ui/core/FormControl';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -32,6 +40,12 @@ const useStyles = makeStyles((theme) => ({
     },
     newUser: {
         cursor: 'pointer'
+    },
+    textField: {
+        width: '100%',
+    },
+    margin: {
+        marginTop: 10
     }
 }));
 
@@ -40,6 +54,7 @@ export default function Login() {
     const classes = useStyles();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const history = useHistory();
 
     async function handleLogin(event) {
@@ -113,6 +128,14 @@ export default function Login() {
         history.push('/user');
     }
 
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword)
+    };
+    
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -139,6 +162,7 @@ export default function Login() {
                         autoFocus
                     />
 
+                    { /* 
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -152,6 +176,32 @@ export default function Login() {
                         id="password"
                         autoComplete="current-password"
                     />
+                    */ }
+
+                    <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
+                        <InputLabel htmlFor="password">Password *</InputLabel>
+                        <OutlinedInput
+                            required
+                            id="password"
+                            name="password"
+                            type={showPassword ? 'text' : 'password'}
+                            label="Password *"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                            endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                    edge="end"
+                                >
+                                {showPassword ? <Visibility /> : <VisibilityOff />}
+                                </IconButton>
+                            </InputAdornment>
+                            }
+                        />
+                    </FormControl>
 
                     <Button
                         type="submit"
