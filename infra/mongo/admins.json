@@ -1,0 +1,14 @@
+[{
+  "_id": {
+    "$oid": "5f73bdf49622471ef13187ef"
+  },
+  "email": "test@linqpal.com",
+  "password": "$2b$08$JOvFThR/6r1lHm0.qRUdguFgDgdSFwo6nF2v80U2nY207PixMXIpu",
+  "createdAt": {
+    "$date": "2020-09-29T23:06:28.137Z"
+  },
+  "updatedAt": {
+    "$date": "2020-09-29T23:06:28.137Z"
+  },
+  "__v": 0
+}]
