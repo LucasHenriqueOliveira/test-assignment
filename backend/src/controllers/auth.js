@@ -6,7 +6,7 @@ const { body, validationResult } = require("express-validator");
 const apiResponse = require("../helpers/apiResponse");
 
 /**
- * User registration.
+ * Admin registration.
  *
  * @param {string}      email
  * @param {string}      password
@@ -71,7 +71,7 @@ exports.signup = [
 ];
 
 /**
- * User login.
+ * Admin login.
  *
  * @param {string}      email
  * @param {string}      password
@@ -79,7 +79,7 @@ exports.signup = [
  * @returns {Object}
  */
 exports.login = [
-	
+
 	// Validate fields.
 	body("email").isLength({ min: 1 }).trim().withMessage("Email must be specified.")
 		.isEmail().withMessage("Email must be a valid email address."),
@@ -100,22 +100,20 @@ exports.login = [
 					if (user) {
 
 						//Compare given password with db's hash.
-						Helper.comparePassword(req.body.password, user.password, function (err, same) {
-							if (same) {
-								let userData = {
-									_id: user._id,
-									email: user.email,
-								};
-								
-								//Generated JWT token
-								userData.authToken = Helper.generateToken(user._id, user.email);
+						if (!Helper.comparePassword(req.body.password, user.password)) {
+							return apiResponse.unauthorizedResponse(res, "Email or Password wrong.");
+						}
 
-								return apiResponse.successResponseWithData(res,"Login Success.", userData);
-							
-							} else {
-								return apiResponse.unauthorizedResponse(res, "Email or Password wrong.");
-							}
-						});
+						let userData = {
+							_id: user._id,
+							email: user.email,
+						};
+						
+						//Generated JWT token
+						userData.authToken = Helper.generateToken(user._id, user.email);
+
+						return apiResponse.successResponseWithData(res,"Login Success.", userData);
+
 					} else {
 						return apiResponse.unauthorizedResponse(res, "Email or Password wrong.");
 					}

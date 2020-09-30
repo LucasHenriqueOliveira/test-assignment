@@ -1,6 +1,9 @@
 const jwt = require('jsonwebtoken');
-const { query } = require('../database/functions');
 const ObjectId = require('mongodb').ObjectID;
+const AdminModel = require("../models/admin");
+
+//helper file to prepare responses.
+const apiResponse = require("../helpers/apiResponse");
 
 module.exports = {
   /**
@@ -11,30 +14,23 @@ module.exports = {
    * @returns {object|void} response object 
    */
     async verifyToken(req, res, next) {
-        const token = req.headers['Authorization'];
+        const token = req.headers['x-access-token'];
 
-        if(!token) {
-            return res.status(400).send({ 'message': 'Token not found!' });
+        if (!token) {
+            return apiResponse.unauthorizedResponse(res, "Token not found!");
         }
 
-        try {
-          	const decoded = await jwt.verify(token, global.gConfig.jwtSecret);
-            const filter = { _id : ObjectId(decoded.id) } ;
+        let decoded = await jwt.verify(token, process.env.JWT_SECRET);
 
-            await query("users", filter).then(rows => {
-
-                if(!rows[0]) {
-                    return res.status(400).send({ 'message': 'Invalid token!' });
-                }
+        AdminModel.findOne({_id : ObjectId(decoded.id), email: decoded.email}).then((user) => {
+            if (!user) {
+                return apiResponse.unauthorizedResponse(res, "Invalid token!");
+            } else {
                 req.user = { id: decoded.id };
                 next();
-              
-            }).catch(e => {
-                return res.status(400).send({ error: 'Token validation incorrect!' });
-            });
-
-        } catch(error) {
-          	return res.status(400).send({ error: 'Error checking the token.' });
-        }
+            }
+        }).catch (error => {
+            return apiResponse.unauthorizedResponse(res, "Token validation incorrect!");
+        });
     }
 }
