@@ -9,4 +9,4 @@ datadir
 vendor
 /src/nbproject/private/
 
-.env
+*.env
