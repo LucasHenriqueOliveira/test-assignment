@@ -8,9 +8,9 @@ let connectionString = '';
 
 // DB connection
 if (!process.env.DB_USER && !process.env.DB_PASSWORD){
-    connectionString = process.env.DB_CLIENT + "://" + process.env.DB_HOST + ':' + process.env.DB_PORT + '/admin';
+    connectionString = process.env.DB_CLIENT + "://" + process.env.DB_HOST + ':' + process.env.DB_PORT + '/' + DB_DATABASE;
 } else {
-    connectionString = process.env.DB_CLIENT + "://" + process.env.DB_USER + ':' + process.env.DB_PASSWORD + '@' + process.env.DB_HOST + ':' + process.env.DB_PORT + '/admin';
+    connectionString = process.env.DB_CLIENT + "://" + process.env.DB_USER + ':' + process.env.DB_PASSWORD + '@' + process.env.DB_HOST + ':' + process.env.DB_PORT + '/' + DB_DATABASE;
 }
 var mongoose = require("mongoose");
 mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
