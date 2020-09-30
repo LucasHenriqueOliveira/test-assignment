@@ -4,6 +4,7 @@ const cors = require('cors');
 const routes = require('./routes');
 const bodyParser = require('body-parser');
 const app = express();
+let connectionString = '';
 
 // DB connection
 if (!process.env.DB_USER && !process.env.DB_PASSWORD){
