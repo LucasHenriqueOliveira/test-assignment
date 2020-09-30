@@ -8,3 +8,5 @@ node_modules/*
 datadir
 vendor
 /src/nbproject/private/
+
+.env
