@@ -1,17 +1,15 @@
-FROM node:alpine3.10
+FROM  node:lts as builder
 
-RUN apk add tzdata
+RUN apt-get install tzdata
 RUN ls /usr/share/zoneinfo
 
 RUN cp usr/share/zoneinfo/America/Los_Angeles /etc/localtime
 
-RUN date
-
-
 WORKDIR /usr/src/app
 
-COPY . .
-
+COPY package.json ./
+RUN npm i
+COPY . ./
 EXPOSE 3004
 
 CMD [ "node", "src/index.js" ]
