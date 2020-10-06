@@ -81,7 +81,7 @@ export default function Users() {
 
     const options = { 
         filterType : 'dropdown',
-        selectableRows: false,
+        selectableRows: 'none',
     }
 
 
