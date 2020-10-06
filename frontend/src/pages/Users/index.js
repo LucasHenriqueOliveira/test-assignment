@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid/Grid";
 import api from '../../services/api';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'; 
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -37,7 +38,7 @@ const getMuiTheme = createMuiTheme({
     }
 });
 
-export default function Users() {
+const Users = ({activeModule, activeLesson}) => {
     const classes = useStyles();
     const { enqueueSnackbar } = useSnackbar();
     const token = Auth.getToken();
@@ -145,3 +146,8 @@ export default function Users() {
         </div>
     );
 }
+
+export default connect(state => ({
+    activeModule: state.activeModule,
+    activeLesson: state.activeLesson
+}))(Users);

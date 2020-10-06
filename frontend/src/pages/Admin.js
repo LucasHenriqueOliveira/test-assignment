@@ -22,6 +22,8 @@ import Hidden from '@material-ui/core/Hidden';
 import CloseIcon from '@material-ui/icons/Close';
 import Auth from '../shared/auth';
 import HomeIcon from '@material-ui/icons/Home';
+import { connect } from 'react-redux';
+import * as defaultAction from '../store/actions';
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -77,7 +79,7 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-export default function Main() {
+const Main = ({ modules, dispatch }) => {
     const classes = useStyles();
     const theme = useTheme();
     const history = useHistory();
@@ -98,6 +100,8 @@ export default function Main() {
         Auth.logout();
         history.push('/login');
     }
+
+    // onClick = {() => dispatch(defaultActions.toggleSection(module, section))}
 
     const drawer = (
         <div>
@@ -208,3 +212,5 @@ export default function Main() {
         </div>
     );
 }
+
+export default connect(state => ({ modules: state.modules }))(Main);

@@ -5,18 +5,22 @@ import User from './pages/User';
 import Admin from './pages/Admin';
 import PrivateRoute from './PrivateRoute';
 import { SnackbarProvider } from 'notistack';
+import { Provider } from 'react-redux';
+import store from './store/index';
 
 function App() {
 	return (
 		<div>
-			<SnackbarProvider maxSnack={3}>
-				<Switch>
-					<Route path='/login' exact={true} component={Login} />
-					<Route path='/user' exact={true} component={User} />
-					<PrivateRoute path='/users' exact={true} component={Admin} />
-					<Redirect exact from="/" to="/user"/> 
-				</Switch>
-			</SnackbarProvider>
+			<Provider store={store}>
+				<SnackbarProvider maxSnack={3}>
+					<Switch>
+						<Route path='/login' exact={true} component={Login} />
+						<Route path='/user' exact={true} component={User} />
+						<PrivateRoute path='/users' exact={true} component={Admin} />
+						<Redirect exact from="/" to="/user"/> 
+					</Switch>
+				</SnackbarProvider>
+			</Provider>
 		</div>
 	);
 }
